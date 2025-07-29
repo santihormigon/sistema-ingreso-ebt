@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente Diamante - EBT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: white;
+            min-height: 100vh;
+            padding: 20px;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            height: 80px;
+            width: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .welcome-message {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto 50px;
+            line-height: 1.7;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .section-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4, #8b5cf6);
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #1f2937;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            background: #374151;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .download-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .download-btn:not(:disabled) {
+            background: #1f2937;
+        }
+
+        .download-btn:not(:disabled):hover {
+            background: #374151;
+        }
+
+        .download-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .coming-soon {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        .coming-soon.disabled {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .nav-links {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            text-decoration: none;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: 1px solid #e5e7eb;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link:hover {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link.active {
+            background: #1f2937;
+            color: white;
+            border-color: #1f2937;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .welcome-message {
+                font-size: 24px;
+            }
+
+            .description {
+                font-size: 14px;
+            }
+
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-card {
+                padding: 20px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .nav-link {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-message {
+                font-size: 20px;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón de cerrar sesión -->
+    <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
+        <button onclick="logout()" style="
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        " onmouseover="this.style.background='#dc2626'" onmouseout="this.style.background='#ef4444'">
+            Cerrar Sesión
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <img src="https://cdn.shopify.com/s/files/1/0669/4332/0386/files/EBT_TRANSPARENTE.png?v=1753293741" 
+                 alt="EBT Logo" 
+                 class="logo">
+            
+            <h1 class="welcome-message" id="welcomeMessage">
+                Bienvenido/a, Cliente Diamante
+            </h1>
+            
+            <p class="description">
+                Aquí puedes descargar tus listas de precios exclusivas según el área correspondiente. 
+                Próximamente se activarán los enlaces de descarga.
+            </p>
+        </div>
+
+        <div class="sections-grid">
+            <div class="section-card">
+                <h2 class="section-title">Lista de precios - Plaza</h2>
+                <button class="download-btn" id="btn-plaza" onclick="downloadSheet('diamante', 'plaza')">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                    </svg>
+                    Descargar
+                </button>
+                <div class="coming-soon" id="status-plaza">Disponible</div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="section-title">Lista de precios - Juguetes</h2>
+                <button class="download-btn" id="btn-juguetes" onclick="downloadSheet('diamante', 'juguetes')">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                    </svg>
+                    Descargar
+                </button>
+                <div class="coming-soon" id="status-juguetes">Disponible</div>
+            </div>
+
+            <div class="section-card">
+                <h2 class="section-title">Lista de precios - Industrial</h2>
+                <button class="download-btn" id="btn-industrial" onclick="downloadSheet('diamante', 'industrial')">
+                    <svg class="download-icon" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                    </svg>
+                    Descargar
+                </button>
+                <div class="coming-soon" id="status-industrial">Disponible</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // URLs de los 9 Google Sheets (REEMPLAZA CON TUS URLs REALES)
+        const SHEET_URLS = {
+            diamante: {
+                plaza: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSZNUqYCfJ1OXGISp4dCSS5Mr7dfhSNrZl9JONWn-kYygBVZe3nTj93vyY6zA-tI_I1HZOIZpsITUN7/pub?output=xlsx',
+                juguetes: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTsvNiMI71wTvMS2uHNSUbfFoevX4YDShUjsOeHSiW9nRLDfdEtnvKA-1ff5zND9evp9sbU0zQNWjgn/pub?output=xlsx',
+                industrial: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT4eSy_arC6CNKlypoIprQ2AIFUka7ttnBL3acgXs4mQF2ljte1DeGFDaPKUMlMPzyTsxJjNoqx3Ycr/pub?output=xlsx'
+            },
+            oro: {
+                plaza: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQpWaoHk0L-aQNzbAd76-EN-Y2WO4TTQf8BxixOzcoaUM-KhvkUSJYAF8ytC2N6cq4x5JeK3-KUs_1i/pub?output=xlsx',
+                juguetes: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRXkXOHCugTdzxLWPrmL4Mzn1FKvConeXPJ16WvCDsmvFjnb2BEECStxWg_dD3DDZb5bbMfWdp7M3Lr/pub?output=xlsx',
+                industrial: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpmCpD3Lc9z7vSwOXj-xXDIYOXOOKctibMztkwAnGOu4bJGW5XH_Ubi24GOUW41_TFvQrA6x3dyYzp/pub?output=xlsx'
+            },
+            plata: {
+                plaza: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQB5HCemu3lUR2GqvxpM-Ny8K8_oKMfErTg_2rmzkJR_CCcSXfBGW2sxiMfrwxxuOp4XjW23_0HR_Hy/pub?output=xlsx',
+                juguetes: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTf5GIvVzkkXyY2JJgdlT6efjAfXS_dAwXirzy-Bv26Ua2X3KSoNWl30NJfwHf_9Oro465Cb_y0ucP1/pub?output=xlsx',
+                industrial: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmM6dDeWwEln62VF5xP2m4265EpZAkWwV5rSNuiyO_zH2wYR8-OZwGm2QrIGfIOsiiJMWgRYLTradD/pub?output=xlsx'
+            }
+        };
+
+        // Función mejorada para descargar el CSV
+        function downloadSheet(categoria, tipo) {
+            const url = SHEET_URLS[categoria][tipo];
+            
+            console.log('Descargando desde:', url);
+            
+            // Método híbrido: primero intentar fetch, si falla usar enlace directo
+            fetch(url)
+                .then(response => {
+                    console.log('Status:', response.status);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    console.log('Descarga exitosa, tamaño:', blob.size, 'bytes');
+                    
+                    // Crear enlace de descarga
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `Lista_Precios_${categoria.charAt(0).toUpperCase() + categoria.slice(1)}_${tipo.charAt(0).toUpperCase() + tipo.slice(1)}.xlsx`;
+                    
+                    // Ejecutar descarga
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Limpiar URL temporal
+                    URL.revokeObjectURL(link.href);
+                })
+                .catch(error => {
+                    console.log('Fetch falló, usando método directo:', error.message);
+                    
+                    // Método de respaldo: abrir directamente la URL
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `Lista_Precios_${categoria.charAt(0).toUpperCase() + categoria.slice(1)}_${tipo.charAt(0).toUpperCase() + tipo.slice(1)}.xlsx`;
+                    link.target = '_blank';
+                    
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                });
+        }
+
+        // Función para cerrar sesión
+        function logout() {
+            // Limpiar datos del localStorage
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userCategory');
+            
+            // Mostrar mensaje de confirmación
+            alert('Sesión cerrada correctamente');
+            
+            // Redirigir al login
+            window.location.href = '/';
+        }
+
+        // Obtener el nombre del usuario desde localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = localStorage.getItem('userName');
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            
+            if (userName && welcomeMessage) {
+                welcomeMessage.textContent = `Bienvenido/a, ${userName}`;
+            }
+        });
+    </script>
+</body>
+</html>
