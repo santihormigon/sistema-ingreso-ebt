@@ -1,0 +1,15 @@
+index:
+    path: /
+    controller: App\Controller\IngresoController::index
+
+diamante:
+    path: /diamante
+    controller: App\Controller\CategoriaController::diamante
+
+oro:
+    path: /oro
+    controller: App\Controller\CategoriaController::oro
+
+plata:
+    path: /plata
+    controller: App\Controller\CategoriaController::plata
